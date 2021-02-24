@@ -17,6 +17,8 @@ class Config:
         'basePath': '/',
     }
 
+    SIGNUP_KEY = os.getenv("SIGNUP_KEY")
+
     SECRET_KEY = os.getenv('SECRET_KEY')
 
     JSON_AS_ASCII = False

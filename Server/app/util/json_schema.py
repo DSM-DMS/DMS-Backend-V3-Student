@@ -31,7 +31,7 @@ def json_type_validate(json_schema: dict):
 AUTH_POST_JSON = dict(id=str, password=str)
 PW_PATCH_JSON = dict(currentPassword=str, newPassword=str)
 PW_POST_JSON = dict(id=str, email=str)
-SIGNUP_POST_JSON = dict(uuid=str, id=str, password=str)
+SIGNUP_POST_JSON = dict(id=str, password=str, number=int, name=str, key=str)
 
 # Apply
 EXTENSION_POST_JSON = dict(classNum=int, seatNum=int)
