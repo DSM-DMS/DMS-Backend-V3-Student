@@ -36,16 +36,11 @@ class StudentModel(db.Model, BaseMixin):
         return student
 
     @staticmethod
-    def signup(id, pw, unsigned_student: UnsignedStudentModel):
-        name = unsigned_student.name
-        number = unsigned_student.number
-        email = unsigned_student.email
-
+    def signup(id, pw, name, number):
         if StudentModel.get_student_by_id(id) is not None:
             raise ResetContentException()
 
-        StudentModel(id, pw, name, number, email).save()
-        unsigned_student.delete()
+        StudentModel(id, pw, name, number, "").save()
 
     @staticmethod
     def login(id: str, pw: str) -> Union[None, 'StudentModel']:

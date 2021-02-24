@@ -1,5 +1,5 @@
 from flasgger import swag_from
-from flask import request, Response
+from flask import request, Response, current_app
 
 from app.doc.account.signup import SIGNUP_POST
 from app.model import UnsignedStudentModel, StudentModel, PointStatusModel, StayApplyModel
@@ -11,13 +11,15 @@ class Signup(AccountResource):
     @json_type_validate(SIGNUP_POST_JSON)
     @swag_from(SIGNUP_POST)
     def post(self):
-        uuid = request.json['uuid']
-        unsigned_student = UnsignedStudentModel.get_unsigned_student(uuid)
-
         id = request.json['id']
         pw = request.json['password']
+        name = request.json['name']
+        number = request.json['number']
 
-        StudentModel.signup(id, pw, unsigned_student)
+        if not request.json['key'] == current_app.config["SIGNUP_KEY"]:
+            return Response('', 401)
+
+        StudentModel.signup(id, pw, name, number)
         PointStatusModel(id).save()
         StayApplyModel(id, 4).save()
 
