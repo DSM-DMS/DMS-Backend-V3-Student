@@ -36,16 +36,11 @@ class StudentModel(db.Model, BaseMixin):
         return student
 
     @staticmethod
-    def signup(id, pw, unsigned_student: UnsignedStudentModel):
-        name = unsigned_student.name
-        number = unsigned_student.number
-        email = unsigned_student.email
-
+    def signup(id, pw, name, number):
         if StudentModel.get_student_by_id(id) is not None:
             raise ResetContentException()
 
-        StudentModel(id, pw, name, number, email).save()
-        unsigned_student.delete()
+        StudentModel(id, pw, name, number, "").save()
 
     @staticmethod
     def login(id: str, pw: str) -> Union[None, 'StudentModel']:
@@ -86,10 +81,10 @@ class StudentModel(db.Model, BaseMixin):
         class_ = number // 100 % 10
         number_ = number % 100
 
-        self.assert_validation(1 <= grade <= 3 and 1 <= class_ <= 4 and 1 <= number_ <= 21)
+        self.assert_validation(1 <= grade <= 3 and 1 <= class_ <= 4 and 1 <= number_ <= 22)
         return number
 
-    @db.validates('email')
-    def validate_email(self, key, email):
-        self.assert_validation(re.match(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@dsm.hs.kr$", email) is not None)
-        return email
+    # @db.validates('email')
+    # def validate_email(self, key, email):
+    #     self.assert_validation(re.match(r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@dsm.hs.kr$", email) is not None)
+    #     return email
